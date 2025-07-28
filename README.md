@@ -1,6 +1,6 @@
 # webchat
 
-Create an .env file in the root directory and add in it 
+Create an .env file in the root directory and add in it \n
 OPENAI_API_KEY="[the-key]"
 The key will be provided.
 
