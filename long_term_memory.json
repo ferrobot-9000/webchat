@@ -1,0 +1,140 @@
+{
+    "context": [
+        {
+            "user": "What is the project title?",
+            "ai": "Miniature AI Robot Scientist (MARS) with Digital Microfluidic Ferrobots."
+        },
+        {
+            "user": "Who are the founders of ebot.bio?",
+            "ai": "Shun Ye, a PhD Candidate, is the founder of ebot.bio. Dino Di Carlo, a Professor at UCLA, is the founding advisor."
+        },
+        {
+            "user": "Who is the research scientist at ebot.bio?",
+            "ai": "Artem Goncharov."
+        },
+        {
+            "user": "Who are the volunteers at ebot.bio?",
+            "ai": "Vivek Rajasenan performs day-to-day designs. There are some undergrad volunteers at Di Carlo Lab who are working on day experiments as well."
+        },
+        {
+            "user": "Can you give me some more information about the members of ebot.bio?",
+            "ai": "Shun and Dino will be here for the long term; Artem and Vivek will be here at least for one more year. Shun, Dino, and Artem are funded at least for the future years. Vivek is not funded now."
+        },
+        {
+            "user": "What is the unmet need in the market that you are attempting to address? Alternatively, what is the specific problem you are addressing?",
+            "ai": "MARS addresses limitations of current lab automation systems, which are costly, bulky, and partially automated, making them inaccessible to early-stage biotech labs. Existing solutions also lack intelligent planning, require expert operation, and consume large volumes of reagents. MARS offers a compact, low-cost benchtop system with end-to-end automation of bioassays, including cell culture. It supports sub-microliter volumes, reduces reagent use by over 95%, and features an intuitive AI interface."
+        },
+        {
+            "user": "Summarize the key scientific data / findings that support your approach. Answer with bullet points. Limit to 150 total words.",
+            "ai": "1) We developed a cost-effective, miniaturized Lab-on-a-3D-Printer (Lo3DP) platform that enables user-friendly execution of bioassays using ferrofluid. 2) The Lo3DP system integrates a motion platform with a multifunctional manipulation head, microfluidic cartridges containing all necessary assay components, an intuitive user interface for assay design and control, and a camera for optical readout, enabling full end-to-end automation. 3) The platform supports key liquid handling tasks such as transport, aliquoting, dispensing, mixing, and serial dilution, with sample volumes as low as 0.5 µL. 4) We demonstrated the platform’s capabilities through bioassays including BRCA1 detection using LAMP and CRP quantification using ELISA."
+        },
+        {
+            "user": "Who is the anticipated end user of your technology (e.g., patients, consumers, clinicians, nurses, etc.)? In what context would they use your technology (e.g., diagnosis or treatment of disease X; assist with surgical procedure in setting Y; etc.)?",
+            "ai": "MARS is a general-purpose intelligent laboratory robot with broad applications in research labs. Its primary users are researchers and lab technicians, whom it supports by automating tasks like well plate preparation, pipetting, sample transfer, and data analysis. This automation reduces workload and improves lab efficiency. For example, MARS can fully automate the cell culture process, from preparation to imaging and analysis. As its capabilities grow, lab directors will be able to use MARS to set high-level research goals for autonomous, iterative experimentation."
+        },
+        {
+            "user": "Is there a current standard of care for the problem you're addressing? If so, what is it, and why would your technology be preferred—e.g., more effective, safer, faster, cheaper, or more accurate? Include any supporting evidence.",
+            "ai": "Existing lab automation systems for cell culture are large, expensive (>$1M), and designed for high-throughput, repetitive tasks, making them unsuitable for small or resource-limited labs. Affordable options like Opentrons OT-2 offer greater flexibility but lack key features such as onboard incubation, sub-μL pipetting accuracy, integrated sensors/cameras, and user-friendly software. MARS addresses these gaps by providing a compact, low-cost, all-in-one platform with precise liquid handling (down to 0.1 μL), integrated incubation, imaging, and AI-driven control. It enables closed-loop, end-to-end automation and easy experiment design through an intuitive interface, making advanced cell culture automation accessible to all labs."
+        },
+        {
+            "user": "What competing technologies, direct or indirect, are currently in development? In what ways does your approach offer an advantage? If already answered in the original LOI, you have the option here to refine/clarify your answer.",
+            "ai": "Several companies provide lab automation tools, but most fall short in flexibility, cost, usability, or integration; Hamilton Robotics: High-end, bulky, and expensive systems requiring expert training. MARS is compact, affordable, and AI-driven for easy protocol customization by non-experts; Tecan: Modular but complex to set up and limited in third-party integration. MARS simplifies maintenance and calibration via AI and supports customizable hardware; Opentrons: Low-cost and modular, but lacks precision at sub-μL volumes, real-time monitoring, and easy-to-use software. MARS offers accurate low-volume handling, built-in sensors, and AI-assisted protocol generation; Emerald Cloud Lab: Fully remote and automated, but costly, rigid, and opaque in protocol execution. MARS offers a transparent, on-site alternative with full user control and reagent flexibility; Potato AI: Software-only platform needing external hardware. MARS combines both software and hardware for seamless, scalable automation. Overall, MARS stands out by integrating accurate, affordable hardware with intelligent, user-friendly software to support flexible, end-to-end bioassay automation for all lab types."
+        },
+        {
+            "user": "What are some foreseeable challenges that might delay the execution of this project (i.e., within the next 18 months in the Innovation Fund)? Please focus on factors outside scientific setbacks that would impact the project (e.g., access to equipment/materials/tissue samples, etc.) Limit to 250 words.",
+            "ai": "N/A"
+        },
+        {
+            "user": "Independent of any data you may have generated, are you aware of any secondary disease area(s) or market(s) that would be a natural extension for your technology? Limit to 100 words.",
+            "ai": "Clinical labs rely on bulky, expensive analyzers needing skilled operators, limiting use in resource-poor and point-of-care settings like rural clinics and emergency rooms. This causes delays due to sample transfers to central labs. MARS’s compact, low-cost design offers an affordable diagnostic solution for these resource-limited clinical environments."
+        },
+        {
+            "user": "If you have generated any data in the secondary disease area(s) or market(s) noted above, briefly describe the stage of development reached for the secondary disease area(s) or market(s). Limit to 100 words.",
+            "ai": "We have successfully demonstrated the ability to use our system to diagnose HF through CRP and NT-ProBNP concentration measurements. We achieved similar results with standard results, with R^2 > 0.96, using a fully automated process."
+        },
+        {
+            "user": "What's your first developmental milestone?",
+            "ai": "The first developmental milestone's objective is to develop peripheral components of 1st MARS prototype, which includes completing the automated mini-biobank that stores and manages samples, the automated decapper that opens the tube lids, and the automated mini-incubator that can shake and maintain constant temperature for cell growth."
+        },
+        {
+            "user": "What decision does the first developmental milestone inform?",
+            "ai": "The milestone informs the decision of whether the prototype meets technical requirements to justify additional development."
+        },
+        {
+            "user": "How will you achieve the first developmental milestone?",
+            "ai": "In order to achieve this milestone, the plan is to hire an electrical engineering intern and purchase necessary parts and test the system control for all electromechanical components to ensure that every individual component functions properly. We will demonstrate a fully automated liquid handling process for the hardware from sample retrieval to incubation without using cells and without aid from LLMs."
+        },
+        {
+            "user": "What is the estimated timeline for the first developmental milestone?",
+            "ai": "The estimated timeline for this milestone is within the next 6 months."
+        },
+        {
+            "user": "What is the estimated total cost of the project?",
+            "ai": "$30k USD."
+        },
+        {
+            "user": "What is the second developmental milestone?",
+            "ai": "The objective of the second developmental milestone is to integrate AI LLMs into MARS and enable MARS's ability for scientific reasoning and interpreting images and results as well as to enable access to search online information and papers."
+        },
+        {
+            "user": "What decision will the second developmental milestone inform?",
+            "ai": "This milestone will help decide if the product is acceptable to end-users and worth refining."
+        },
+        {
+            "user": "How do you plan to achieve the second developmental milestone?",
+            "ai": "We plan to achieve this milestone by verifying the LLMs' ability to interpret images of cell growth, errors, etc, and how MARS will generate protocols to control the hardware."
+        },
+        {
+            "user": "What is the esimated timeline for the second developmental milestone?",
+            "ai": "We estimate this will take 3 additional months, making it a total of 9 months to achieve the first two milestones."
+        },
+        {
+            "user": "What is the third developmental milestone?",
+            "ai": "The objective is to demonstrate the generation of basic experimental protocols by the integrated AI LLMs."
+        },
+        {
+            "user": "What decision will the third developmental milestone inform?",
+            "ai": "This milestone will help decide if performance meets minimum requirements for the target market."
+        },
+        {
+            "user": "How do you plan to achieve your third developmental milestone?",
+            "ai": "Our approach to achieving the third devvelopmetal milestone is to design different kinds of prompts and generate cell culture protocols and have experts read and manually test if the cell line can be maintained by following the protocols."
+        },
+        {
+            "user": "What is the estimated timeline for the third developmental milestone?",
+            "ai": "We estimate this will take 3 additional months, making it 12 months to achieve the first three milestones."
+        },
+        {
+            "user": "What is the fourth developmental milestone?",
+            "ai": "We are to perform end-to-end cell culture experiments using the HEK cell line."
+        },
+        {
+            "user": "What decision does the fourth developmental milestone inform?",
+            "ai": "The fourth developmental milestone allows us to decide if technology can be scaled up for commercial production."
+        },
+        {
+            "user": "How will you achieve the fourth milestone?",
+            "ai": "Our approach to achieve this is to test the functionality of all hardware and software of the MARS for all-in-one, end-to-end cell culture from experimental design to result interpretation and verify that the cell line can be maintained for at least 4 weeks without requiring manual intervention."
+        },
+        {
+            "user": "What is the estimated timeline for the fourth milestone?",
+            "ai": "We estimate this will take 3 additional months, making it a total of 15 months to achieve the first fourh milestones."
+        },
+        {
+            "user": "What is the fifth developmental milestone?",
+            "ai": "The objective is to perform end-to-end recombinant protein production using the cell culture system and pipeline."
+        },
+        {
+            "user": "What decision does the fifth developmental milestone inform?",
+            "ai": "The fifth developmetal milestone will help decide whether the performance is competitive enough to pursue partnerships or investor engagement."
+        },
+        {
+            "user": "How will you achieve the fifth developmental milestone?",
+            "ai": "We will test and optimize the hardware and software workflow for recombinant protein production. We will test using fluorescent protein production for the easy identification and quantification of recombinant protein production and verify if the entire workflow, from experimental design to result interpretation (based on fluorescent signals), is accurate."
+        },
+        {
+            "user": "What is the estimated timeline for the fifth developmental milestone?",
+            "ai": "We esimate this will take an additional 3 months, making it 18 total months to achieve all 5 milestones."
+        }
+    ]
+}

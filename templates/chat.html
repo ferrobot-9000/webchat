@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot with Memory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #667eea;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #3851c3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .header-buttons {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff3742;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+
+        .message.user .message-avatar {
+            background: #667eea ;
+        }
+
+        .message.bot .message-avatar {
+            background: #f093fb;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.user .message-time {
+            text-align: left;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: #666;
+            margin: 40px 0;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 95%;
+                height: 90vh;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .header-buttons {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 AI Chatbot with Memory</h1>
+            <p>Powered by Mistral LLM • Persistent Memory Enabled</p>
+            <!-- <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="loadHistory()">📋 History</button>
+                <button class="btn btn-danger" onclick="clearHistory()">🗑️ Clear</button>
+            </div> -->
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="welcome-message">
+                👋 Welcome! Start chatting with your AI assistant. Your conversations will be saved automatically.
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea 
+                    id="messageInput" 
+                    class="chat-input" 
+                    placeholder="Type your message here..."
+                    rows="1"
+                    onkeydown="handleKeyPress(event)"
+                ></textarea>
+                <button id="sendBtn" class="send-btn" onclick="sendMessage()">
+                    <span id="sendText">Send</span>
+                    <div class="loading" id="sendLoading">
+                        <div class="spinner"></div>
+                        <span>Thinking...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const sendText = document.getElementById('sendText');
+        const sendLoading = document.getElementById('sendLoading');
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Handle Enter key
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Send message function
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || sendBtn.disabled) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            // Show typing indicator
+            showTypingIndicator();
+            setLoading(true);
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    addMessage('Sorry, there was an error: ' + data.error, 'bot');
+                } else {
+                    addMessage(data.response, 'bot', data.timestamp);
+                    
+                    // Log relevant memory to console
+                    if (data.relevant_memory && data.relevant_memory.length > 0) {
+                        console.log('🧠 Relevant Memory Retrieved:');
+                        console.log('Query:', message);
+                        console.log('Found', data.relevant_memory.length, 'relevant conversations:');
+                        data.relevant_memory.forEach((mem, index) => {
+                            console.log(`\n${index + 1}. [${mem.timestamp}]`);
+                            console.log(`   User: ${mem.user}`);
+                            console.log(`   AI: ${mem.ai}`);
+                        });
+                        console.log('---');
+                    } else {
+                        console.log('🧠 No relevant memory found for query:', message);
+                    }
+                }
+            } catch (error) {
+                addMessage('Sorry, there was a connection error. Please try again.', 'bot');
+            } finally {
+                hideTypingIndicator();
+                setLoading(false);
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, sender, timestamp = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = sender === 'user' ? '👤' : '🤖';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.textContent = content;
+            
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = timestamp || new Date().toLocaleTimeString();
+            
+            messageContent.appendChild(messageTime);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show/hide typing indicator
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Set loading state
+        function setLoading(loading) {
+            sendBtn.disabled = loading;
+            sendText.style.display = loading ? 'none' : 'block';
+            sendLoading.style.display = loading ? 'flex' : 'none';
+        }
+
+        // Load chat history
+        async function loadHistory() {
+            try {
+                const response = await fetch('/history');
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('Error loading history: ' + data.error);
+                } else if (data.history && data.history.length > 0) {
+                    // Create a formatted history display
+                    let historyText = `📋 All ${data.history.length} conversations:\n\n`;
+                    
+                    data.history.forEach((interaction, index) => {
+                        historyText += `${index + 1}. [${interaction.timestamp}]\n`;
+                        historyText += `   You: ${interaction.user}\n`;
+                        historyText += `   Bot: ${interaction.ai}\n\n`;
+                    });
+                    
+                    // Show in a more readable format
+                    const historyWindow = window.open('', '_blank', 'width=600,height=800');
+                    historyWindow.document.write(`
+                        <html>
+                        <head>
+                            <title>Chat History</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+                                .history-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+                                .timestamp { color: #666; font-size: 12px; }
+                                .user-msg { background: #e3f2fd; padding: 10px; border-radius: 5px; margin: 5px 0; }
+                                .bot-msg { background: #f5f5f5; padding: 10px; border-radius: 5px; margin: 5px 0; }
+                            </style>
+                        </head>
+                        <body>
+                            <h2>🤖 AI Chatbot History</h2>
+                            ${data.history.map((interaction, index) => `
+                                <div class="history-item">
+                                    <div class="timestamp">${index + 1}. [${interaction.timestamp}]</div>
+                                    <div class="user-msg"><strong>You:</strong> ${interaction.user}</div>
+                                    <div class="bot-msg"><strong>Bot:</strong> ${interaction.ai}</div>
+                                </div>
+                            `).join('')}
+                        </body>
+                        </html>
+                    `);
+                } else {
+                    alert('No previous conversations found.');
+                }
+            } catch (error) {
+                alert('Error loading history: ' + error.message);
+            }
+        }
+
+        // Clear chat history
+        async function clearHistory() {
+            if (!confirm('Are you sure you want to clear all chat history? This cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/clear', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('Error clearing history: ' + data.error);
+                } else {
+                    // Clear the chat display
+                    chatMessages.innerHTML = `
+                        <div class="welcome-message">
+                            👋 Welcome! Start chatting with your AI assistant. Your conversations will be saved automatically.
+                        </div>
+                    `;
+                    alert('Chat history cleared successfully!');
+                }
+            } catch (error) {
+                alert('Error clearing history: ' + error.message);
+            }
+        }
+
+
+
+
+
+        // Focus on input when page loads
+        window.onload = function() {
+            messageInput.focus();
+        };
+    </script>
+</body>
+</html> 
