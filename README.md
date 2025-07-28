@@ -1,10 +1,11 @@
 # webchat
 
-Create an .env file in the root directory and add in it
+Create an .env file in the root directory and add in it:
 
-OPENAI_API_KEY="[the-key]"
+OPENAI_API_KEY="[key]"
 
-The key will be provided.
+The key has been provided via email.
+
 
 Run python chatbot.py in terminal to start the chatbot. Copy and paste the following link:
 
